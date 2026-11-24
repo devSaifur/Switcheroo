@@ -1,0 +1,81 @@
+row.property label.title {
+  opacity: 0.55;
+  font-size: smaller;
+}
+
+row.property label.subtitle {
+  opacity: 1;
+  font-size: 11pt;
+}
+
+dragoverlay {
+  box-shadow: none;
+}
+
+.drag-overlay-status-page {
+  background-color: alpha(var(--accent-bg-color), 0.5);
+  color: var(--accent-fg-color);
+}
+
+.card-content {
+  border-radius: 60px;
+}
+
+flowboxchild:focus {
+  border-radius: 15px;
+}
+
+.image-caption {
+  border-top: 1px solid var(--border-color);
+  background-color: var(--thumbnail-bg-color);
+  padding: 2pt 0;
+}
+
+.image-remove {
+  /* background-color: var(--thumbnail-bg-color); */
+  margin: 5px;
+}
+
+.image-remove:focus {
+  outline-color: alpha(var(--accent-color), 0.5);
+}
+
+.image-rest-button:focus {
+  outline-offset: 2px;
+}
+
+value {
+  min-width: 2em;
+}
+
+.lock {
+  min-height: 30px;
+  min-width: 30px;
+}
+
+.large_number {
+  font-size: 36pt;
+}
+
+.unit-drop .menu contents {
+  min-width: 0px;
+}
+
+.long {
+  padding-right: 70px;
+  padding-left: 70px;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.output-filetype-drop popover > contents {
+  min-width: 7em;
+}
+
+@media (prefers-contrast: more) {
+  .image-remove:focus {
+    outline-color: alpha(var(--accent-color), 0.8);
+  }
+}

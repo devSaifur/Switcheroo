@@ -1,0 +1,122 @@
+{
+    "app-id": "io.gitlab.adhami3310.Converter",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "master",
+    "sdk": "org.gnome.Sdk",
+    "sdk-extensions": [
+        "org.freedesktop.Sdk.Extension.rust-stable"
+    ],
+    "command": "switcheroo",
+    "finish-args": [
+        "--share=ipc",
+        "--socket=fallback-x11",
+        "--device=dri",
+        "--socket=wayland"
+    ],
+    "build-options": {
+        "append-path": "/usr/lib/sdk/rust-stable/bin",
+        "env": {}
+    },
+    "cleanup": [
+        "/include",
+        "/lib/cmake",
+        "/lib/pkgconfig",
+        "/share/doc",
+        "/share/man",
+        "*.la",
+        "*.a"
+    ],
+    "modules": [
+        {
+            "name": "mozjpeg",
+            "buildsystem": "cmake",
+            "config-opts": [
+                "-DENABLE_STATIC=FALSE",
+                "-DPNG_SUPPORTED=TRUE",
+                "-DWITH_JPEG8=TRUE",
+                "-DCMAKE_INSTALL_LIBDIR=/app/lib",
+                "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/mozilla/mozjpeg/archive/refs/tags/v4.1.1.tar.gz",
+                    "sha256": "66b1b8d6b55d263f35f27f55acaaa3234df2a401232de99b6d099e2bb0a9d196"
+                }
+            ]
+        },
+        {
+            "name": "ghostscript",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10080/ghostscript-10.08.0.tar.xz",
+                    "sha256": "c20492bc8ebb96c87fa2e52a0926e1cda8cde95d66145e018ac713fed5da38cf"
+                },
+                {
+                    "type": "shell",
+                    "commands": [
+                        "cp -p /usr/share/automake-*/config.{sub,guess} freetype/builds/unix/",
+                        "cp -p /usr/share/automake-*/config.{sub,guess} ijs/",
+                        "cp -p /usr/share/automake-*/config.{sub,guess} jpeg/",
+                        "cp -p /usr/share/automake-*/config.{sub,guess} libpng/",
+                        "cp -p /usr/share/automake-*/config.{sub,guess} lcms2mt/",
+                        "cp -p /usr/share/automake-*/config.{sub,guess} tiff/config/",
+                        "rm -rf libpng/pngread.c"
+                    ]
+                }
+            ],
+            "config-opts": [
+                "--disable-cups",
+                "--disable-gtk",
+                "--without-tesseract",
+                "--without-libpaper",
+                "--without-pdftoraster"
+            ],
+            "make-args": [
+                "so"
+            ],
+            "make-install-args": [
+                "soinstall"
+            ],
+            "cleanup": [
+                "/bin",
+                "/share"
+            ]
+        },
+        {
+            "name": "magick",
+            "buildsystem": "autotools",
+            "config-opts": [
+                "--with-heic=yes",
+                "--with-jxl=yes",
+                "--with-rsvg=yes",
+                "--with-gslib=yes"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/ImageMagick/ImageMagick.git",
+                    "tag": "7.1.2-31",
+                    "commit": "fb965f1b54a65ddb633f8c2eac4452c782c66d7f"
+                }
+            ]
+        },
+        {
+            "name": "switcheroo",
+            "builddir": true,
+            "buildsystem": "meson",
+            "run-test": true,
+            "config-opts": [
+                "--buildtype=release",
+                "-Dprofile=development"
+            ],
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": "."
+                }
+            ]
+        }
+    ]
+}
